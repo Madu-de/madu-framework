@@ -91,3 +91,22 @@ Example:
   }
 </style>
 ```
+
+### How to add logic to a component
+1. Implement the <code>OnInit</code> interface to your component
+2. Add the <code>maduOnInit</code> method to your component class. The first parameter is the HTMLElement that you created to paste your component/component.html into.
+3. Now you can get every element of the single component and edit them for example.
+
+Example:
+```ts
+@Component({
+  tag: 'app-footer',
+  template,
+})
+export class FooterComponent implements OnInit {
+  maduOnInit(element: HTMLElement): void {
+    const yearEl: HTMLElement = element.querySelector('#year');
+    yearEl.innerHTML = new Date().getFullYear().toString();
+  } 
+}
+```

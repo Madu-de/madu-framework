@@ -40,8 +40,8 @@ ComponentManager.manage([
 ]);
 ```
 
-### How to add extern content to your component
-1. Add the <code>madu-template</code>-element, to your component html file. (If you changed the name in the <code>madu-configuration.json</code> use it instead)
+### How to add external content to your component
+1. Add the <code>madu-template</code>-element, to your component html file. (If you changed the name in the <code>madu-configuration.json</code> use that instead)
 2. Add content to the used component.
 
 Example:
@@ -71,7 +71,7 @@ Example:
 
 ### How to use scoped css
 1. Create a <code>style</code>-Tag at the end of your component html file.
-2. Use everytime you want to <code>:scope</code> as pseudo element before you select your element
+2. Use <code>:scope</code> as pseudo element before you select your element
 
 Example:
 ```html
@@ -93,9 +93,9 @@ Example:
 ```
 
 ### How to add logic to a component
-1. Implement the <code>OnInit</code> interface to your component
+1. Implement the <code>OnInit</code> interface
 2. Add the <code>maduOnInit</code> method to your component class. The first parameter is the HTMLElement that you created to paste your component/component.html into.
-3. Now you can get every element of the single component and edit them for example.
+3. For example you can get every element of the single component and edit them.
 
 Example:
 ```ts

@@ -20,7 +20,7 @@ export class Canvas {
   }
 
   removeElement(element: CanvasElement): void;
-  removeElement(id: number);
+  removeElement(id: number): void;
 
   removeElement(elementOrId: CanvasElement | number): void {
     this.elements = this.elements.filter((e: CanvasElement) => e.id !== (typeof elementOrId === "number" ? elementOrId : elementOrId.id));
@@ -31,9 +31,7 @@ export class Canvas {
   }
 
   addLineBetweenElements(element1: CanvasElement, element2: CanvasElement, width?: number, style?: string): void {
-    const element1Coords: CanvasCoords = element1.getMiddleCoords();
-    const element2Coords: CanvasCoords = element2.getMiddleCoords();
-    this.addLine(new CanvasLine([element1Coords, element2Coords], width, style));
+    this.addLine(new CanvasLine([element1, element2], width, style));
   }
 
   removeLine(line: CanvasLine): void {
@@ -50,7 +48,8 @@ export class Canvas {
     }
     this.lines.forEach((line: CanvasLine) => {
       this.context.beginPath();
-      line.getCoords().forEach((coords: CanvasCoords, i: number) => {
+      line.getCoords().forEach((coords: CanvasCoords | CanvasElement, i: number) => {
+        coords = coords instanceof CanvasCoords ? coords : new CanvasCoords(coords.getMiddleCoords().getX(), coords.getMiddleCoords().getY());
         i == 0 ? this.context.moveTo(coords.getX(), coords.getY()) : this.context.lineTo(coords.getX(), coords.getY());
       });
       this.context.lineWidth = line.getWidth() || this.context.lineWidth;

@@ -3,6 +3,7 @@ import { CanvasElement } from "./CanvasElement";
 import { CanvasLine } from "./CanvasLine";
 
 export class Canvas {
+  private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private height: number;
   private width: number;
@@ -10,9 +11,18 @@ export class Canvas {
   private lines: CanvasLine[] = [];
 
   constructor(canvas: HTMLCanvasElement) {
+    this.canvas = canvas;
     this.context = canvas.getContext('2d');
     this.height = canvas.height;
     this.width = canvas.width;
+  }
+
+  getHeight(): number {
+    return this.height;
+  }
+
+  getWidth(): number {
+    return this.width;
   }
 
   addElement(element: CanvasElement): void {
@@ -57,7 +67,12 @@ export class Canvas {
       this.context.stroke();
     });
     this.elements.forEach((element: CanvasElement) => {
-      this.context.drawImage(element.image, element.getCoords().getX(), element.getCoords().getY(), element.getWidth(), element.getWidth());
+      this.context.drawImage(element.getImage(), element.getCoords().getX(), element.getCoords().getY(), element.getWidth(), element.getWidth());
     });
+  }
+
+  getCanvasMouseCoords(ev: MouseEvent): CanvasCoords {
+    const rect: DOMRect = this.canvas.getBoundingClientRect();
+    return new CanvasCoords(ev.clientX - rect.left, ev.clientY - rect.top); 
   }
 }

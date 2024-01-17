@@ -22,7 +22,7 @@ export class CanvasLine {
   }
 
   getCoords(): (CanvasCoords | CanvasElement)[] {
-    return this.coords.filter(() => true);
+    return [...this.coords];
   }
 
   getWidth(): number {

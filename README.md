@@ -110,3 +110,85 @@ export class FooterComponent implements OnInit {
   } 
 }
 ```
+
+# How to use canvas
+1. Create a canvas in the index.html or a component
+```html
+<canvas id="canvas" width="720" height="420"></canvas>
+```
+2. If you want to use images, add them to the index.html and add following css to your code:
+```html
+<!--index.html-->
+<div class="canvas-images">
+  <img src="path/to/image.png" id="">
+</div>
+```
+```scss
+// main.scss
+div.canvas-images {
+  display: none;
+}
+```
+3. Create a <code>Canvas</code> instance with the HTMLCanvasElement
+```ts
+import { Canvas } from "../core/canvas/Canvas";
+
+const canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementById('canvas');
+const canvas: Canvas = new Canvas(canvasElement);
+```
+
+### How to create a component
+1. If you dont, add the element image to your index.html like step 2 at "How to use canvas"
+2. Create a <code>CanvasElement</code> instance:
+```ts
+import { CanvasElement } from "../core/canvas/CanvasElement";
+
+const x: number = 200;
+const y: number = 200;
+const image: HTMLImageELement = <HTMLImageElement>document.getElementById('madupng');
+const width: number = 50;
+const height: number = 50;
+const duck1: CanvasElement = new CanvasElement(x, y, image, width, height);
+```
+2. Add the element to your canvas:
+```ts
+canvas.addElement(duck1);
+```
+3. You can edit the rendering element using the <code>CanvasElement</code> instance
+
+
+### How to create a line
+1. Create a <code>CanvasLine</code> instance:
+```ts
+import { CanvasCoords } from "../core/canvas/CanvasCoords";
+import { CanvasLine } from './../core/canvas/CanvasLine';
+
+const coords1: CanvasCoords = new CanvasCoords(20, 20);
+const coords2: CanvasCoords = new CanvasCoords(30, 40);
+const width: number = 20;
+const style: string = 'yellow';
+const line: CanvasLine = new CanvasLine([coords1, coords2], width, style);
+```
+2. Add the line to your canvas:
+```ts
+canvas.addLine(line);
+```
+3. You can edit the rendering line using the <code>CanvasLine</code> instance
+
+#### How to add a constant line between elements
+1. Call the <code>addLineBetweenElements</code> method on the canvas object
+```ts
+const duck1: CanvasElement = new CanvasElement(200, 200, <HTMLImageElement>document.getElementById('madupng'), 50, 50);
+
+const duck2: CanvasElement = new CanvasElement(550, 150, <HTMLImageElement>document.getElementById('madupng'), 50, 50);
+
+const line: CanvasLine = canvas.addLineBetweenElements(duck1, duck2, 10, 'yellow');
+```
+3. You can edit the rendering line using the <code>CanvasLine</code> instance
+
+
+### How to render/start the canvas
+1. After all, you call the render method on the canvas. It will render every elements and lines how often it can.
+```ts
+canvas.render();
+```

@@ -29,7 +29,15 @@ export class CanvasLine {
     return this.width;
   }
 
+  setWidth(value: number): void {
+    this.width = value;
+  }
+
   getStyle(): string {
     return this.style;
+  }
+
+  setStyle(value: string): void {
+    this.style = value;
   }
 }

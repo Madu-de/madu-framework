@@ -1,3 +1,4 @@
+import { CanvasLine } from './../core/canvas/CanvasLine';
 import { Canvas } from "../core/canvas/Canvas";
 import { CanvasCoords } from "../core/canvas/CanvasCoords";
 import { CanvasElement } from "../core/canvas/CanvasElement";
@@ -9,7 +10,7 @@ const duck1: CanvasElement = new CanvasElement(200, 200, <HTMLImageElement>docum
 const duck2: CanvasElement = new CanvasElement(550, 150, <HTMLImageElement>document.getElementById('madupng'), 50, 50);
 canvas.addElement(duck1);
 canvas.addElement(duck2);
-canvas.addLineBetweenElements(duck1, duck2, 10, 'yellow');
+const line: CanvasLine = canvas.addLineBetweenElements(duck1, duck2, 10, 'yellow');
 canvas.render();
 
 window.addEventListener('keydown', (ev: KeyboardEvent) => {
@@ -44,5 +45,7 @@ canvasElement.addEventListener('mouseup', (ev: MouseEvent) => {
     follow = !follow;
     followMouse(ev);
     follow ? canvasElement.addEventListener('mousemove', followMouse) : canvasElement.removeEventListener('mousemove', followMouse);
+    follow ? line.setWidth(5) : line.setWidth(10);
+    follow ? line.setStyle('red') : line.setStyle('yellow');
   }
 });

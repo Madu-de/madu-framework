@@ -40,8 +40,10 @@ export class Canvas {
     this.lines.push(line);
   }
 
-  addLineBetweenElements(element1: CanvasElement, element2: CanvasElement, width?: number, style?: string): void {
-    this.addLine(new CanvasLine([element1, element2], width, style));
+  addLineBetweenElements(element1: CanvasElement, element2: CanvasElement, width?: number, style?: string): CanvasLine {
+    const line: CanvasLine = new CanvasLine([element1, element2], width, style);
+    this.addLine(line);
+    return line;
   }
 
   removeLine(line: CanvasLine): void {

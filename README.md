@@ -137,7 +137,7 @@ const canvasElement: HTMLCanvasElement = <HTMLCanvasElement>document.getElementB
 const canvas: Canvas = new Canvas(canvasElement);
 ```
 
-### How to create a element
+### How to create an element
 1. If you dont, add the element image to your index.html like step 2 at "How to use canvas"
 2. Create a <code>CanvasElement</code> instance:
 ```ts

@@ -178,6 +178,9 @@ canvas.addLine(line);
 #### How to add a constant line between elements
 1. Call the <code>addLineBetweenElements</code> method on the canvas object
 ```ts
+import { CanvasElement } from "../core/canvas/CanvasElement";
+import { CanvasLine } from './../core/canvas/CanvasLine';
+
 const duck1: CanvasElement = new CanvasElement(200, 200, <HTMLImageElement>document.getElementById('madupng'), 50, 50);
 
 const duck2: CanvasElement = new CanvasElement(550, 150, <HTMLImageElement>document.getElementById('madupng'), 50, 50);

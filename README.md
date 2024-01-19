@@ -189,6 +189,29 @@ const line: CanvasLine = canvas.addLineBetweenElements(duck1, duck2, 10, 'yellow
 ```
 3. You can edit the rendering line using the <code>CanvasLine</code> instance
 
+### How to change the z-index/priority of an element or line
+Firstly lines have automatically priority 0. Elements have automatically priority 1. That means that every elemement is automatically over every line.
+But if you want to change the priority of an element to a higher one to render it over everything, you can change the priority every time you want to.
+
+#### How to set the priority of an element or line when creating 
+1. When creating an element or line, you can set the priority in the constructor
+```ts
+const duck1: CanvasElement = new CanvasElement(200, 200, <HTMLImageElement>document.getElementById('madupng'), 50, 50, 2);
+
+const duck2: CanvasElement = new CanvasElement(550, 150, <HTMLImageElement>document.getElementById('madupng'), 50, 50, 6);
+
+const line: CanvasLine = canvas.addLineBetweenElements(duck1, duck2, 10, 'yellow', 200);
+```
+In this example the line will be rendered over duck2 and duck2 over duck1.
+
+#### How to set the priority of an element or line on runtime
+1. Every time you want to set the priority of an element or line you can change the priority of the object
+```
+duck1.priority = 2;
+duck2.priority = 3;
+line.priority = 1;
+```
+In this example duck2 will be rendered over duck1 and duck1 over the line.
 
 ### How to render/start the canvas
 1. After all, you call the render method on the canvas. It will render every elements and lines how often it can.

@@ -1,6 +1,8 @@
 import { CanvasCoords } from "./CanvasCoords";
+import { IRenderableCanvasElement } from "./IRenderableCanvasElement";
 
-export class CanvasElement {
+export class CanvasElement implements IRenderableCanvasElement {
+  priority: number = 1;
   public static idCount: number = 0;
   private set id(value: number) {
     this._id = value;
@@ -15,7 +17,7 @@ export class CanvasElement {
   private image: HTMLImageElement;
   private imageLoaded: boolean = false;
 
-  constructor(x: number, y: number, image: HTMLImageElement, width?: number, height?: number) {
+  constructor(x: number, y: number, image: HTMLImageElement, width?: number, height?: number, priority?: number) {
     this.id = CanvasElement.idCount++;
     this.coords = new CanvasCoords(x, y);
     this.width = width || image.width;
@@ -27,6 +29,7 @@ export class CanvasElement {
     this.image.addEventListener('load', () => {
       this.imageLoaded = true;
     }, false);
+    this.priority = priority || 1;
   }
 
   public getCoords(): CanvasCoords {
@@ -86,5 +89,9 @@ export class CanvasElement {
     if (this.getCoords().getX() > coords.getX() + width || coords.getX() > this.getCoords().getX() + this.getWidth()) return false;
     if (this.getCoords().getY() > coords.getY() + height || coords.getY() > this.getCoords().getY() + this.getHeight()) return false;
     return true;
+  }
+
+  render(context: CanvasRenderingContext2D): void {
+    context.drawImage(this.getImage(), this.getCoords().getX(), this.getCoords().getY(), this.getWidth(), this.getWidth());
   }
 }

@@ -1,6 +1,7 @@
 import { CanvasCoords } from "./CanvasCoords";
 import { CanvasElement } from "./CanvasElement";
 import { CanvasLine } from "./CanvasLine";
+import { IRenderableCanvasElement } from "./IRenderableCanvasElement";
 
 export class Canvas {
   private canvas: HTMLCanvasElement;
@@ -40,8 +41,8 @@ export class Canvas {
     this.lines.push(line);
   }
 
-  addLineBetweenElements(element1: CanvasElement, element2: CanvasElement, width?: number, style?: string): CanvasLine {
-    const line: CanvasLine = new CanvasLine([element1, element2], width, style);
+  addLineBetweenElements(element1: CanvasElement, element2: CanvasElement, width?: number, style?: string, priority?: number): CanvasLine {
+    const line: CanvasLine = new CanvasLine([element1, element2], width, style, priority);
     this.addLine(line);
     return line;
   }
@@ -58,18 +59,10 @@ export class Canvas {
       this.context.fillText('Loading...', 0, 48);
       return;
     }
-    this.lines.forEach((line: CanvasLine) => {
-      this.context.beginPath();
-      line.getCoords().forEach((coords: CanvasCoords | CanvasElement, i: number) => {
-        coords = coords instanceof CanvasCoords ? coords : new CanvasCoords(coords.getMiddleCoords().getX(), coords.getMiddleCoords().getY());
-        i == 0 ? this.context.moveTo(coords.getX(), coords.getY()) : this.context.lineTo(coords.getX(), coords.getY());
-      });
-      this.context.lineWidth = line.getWidth() || this.context.lineWidth;
-      this.context.strokeStyle = line.getStyle() || this.context.strokeStyle;
-      this.context.stroke();
-    });
-    this.elements.forEach((element: CanvasElement) => {
-      this.context.drawImage(element.getImage(), element.getCoords().getX(), element.getCoords().getY(), element.getWidth(), element.getWidth());
+    const renderableElements: IRenderableCanvasElement[] = [...this.elements, ...this.lines];
+    renderableElements.sort((a: IRenderableCanvasElement, b: IRenderableCanvasElement) => a.priority - b.priority);
+    renderableElements.forEach((e: IRenderableCanvasElement) => {
+      e.render(this.context);
     });
   }
 

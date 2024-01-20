@@ -30,6 +30,10 @@ export class Canvas {
     this.elements.push(element);
   }
 
+  getElementsCopy(): CanvasElement[] {
+    return [...this.elements];
+  }
+
   removeElement(element: CanvasElement): void;
   removeElement(id: number): void;
 
@@ -49,6 +53,10 @@ export class Canvas {
     const line: CanvasLine = new CanvasLine([element1, element2], width, style, priority);
     this.addLine(line);
     return line;
+  }
+
+  getLinesCopy(): CanvasLine[] {
+    return [...this.lines];
   }
 
   removeLine(line: CanvasLine): void;

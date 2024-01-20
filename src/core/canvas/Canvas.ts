@@ -34,7 +34,11 @@ export class Canvas {
   removeElement(id: number): void;
 
   removeElement(elementOrId: CanvasElement | number): void {
-    this.elements = this.elements.filter((e: CanvasElement) => e.id !== (typeof elementOrId === "number" ? elementOrId : elementOrId.id));
+    this.elements = this.elements.filter((e: CanvasElement) => e.id !== (typeof elementOrId === 'number' ? elementOrId : elementOrId.id));
+  }
+
+  removeAllElements(): void {
+    this.elements = [];
   }
   
   addLine(line: CanvasLine): void {
@@ -47,8 +51,15 @@ export class Canvas {
     return line;
   }
 
-  removeLine(line: CanvasLine): void {
-    this.lines = this.lines.filter((l: CanvasLine) => l.id !== line.id);
+  removeLine(line: CanvasLine): void;
+  removeLine(id: number): void;
+
+  removeLine(lineOrId: CanvasLine | number): void {
+    this.lines = this.lines.filter((l: CanvasLine) => l.id !== (typeof lineOrId === 'number' ? lineOrId : lineOrId.id));
+  }
+
+  removeAllLines(): void {
+    this.lines = [];
   }
 
   render(): void {

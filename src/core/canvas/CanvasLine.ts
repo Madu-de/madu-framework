@@ -13,6 +13,8 @@ export class CanvasLine implements IRenderableCanvasElement {
   }
   private _id: number;
   private coords: (CanvasCoords | CanvasElement)[] = [];
+  private path: Path2D;
+  private context: CanvasRenderingContext2D;
   private width: number;
   private style: string;
 
@@ -44,14 +46,19 @@ export class CanvasLine implements IRenderableCanvasElement {
     this.style = value;
   }
 
+  isPointInLine(coords: CanvasCoords): boolean {
+    return this.context.isPointInStroke(this.path, coords.getX(), coords.getY());
+  }
+
   render(context: CanvasRenderingContext2D): void {
-    context.beginPath();
-      this.getCoords().forEach((coords: CanvasCoords | CanvasElement, i: number) => {
-        coords = coords instanceof CanvasCoords ? coords : new CanvasCoords(coords.getMiddleCoords().getX(), coords.getMiddleCoords().getY());
-        i == 0 ? context.moveTo(coords.getX(), coords.getY()) : context.lineTo(coords.getX(), coords.getY());
-      });
-      context.lineWidth = this.getWidth() || context.lineWidth;
-      context.strokeStyle = this.getStyle() || context.strokeStyle;
-      context.stroke();
+    this.path = new Path2D();
+    this.context = context;
+    this.getCoords().forEach((coords: CanvasCoords | CanvasElement, i: number) => {
+      coords = coords instanceof CanvasCoords ? coords : new CanvasCoords(coords.getMiddleCoords().getX(), coords.getMiddleCoords().getY());
+      i == 0 ? this.path.moveTo(coords.getX(), coords.getY()) : this.path.lineTo(coords.getX(), coords.getY());
+    });
+    context.lineWidth = this.getWidth() || context.lineWidth;
+    context.strokeStyle = this.getStyle() || context.strokeStyle;
+    context.stroke(this.path);
   }
 }
